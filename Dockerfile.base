@@ -1,4 +1,4 @@
-FROM hgrasland/root-tests:6.18.04-cxx17
+FROM hgrasland/root-tests:6.20.02-cxx17
 
 RUN zypper in -y perf && zypper clean -a
 
