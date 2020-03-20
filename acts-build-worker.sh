@@ -26,18 +26,17 @@ echo "export ACTS_SPACK_SPEC=\"${ACTS_SPACK_SPEC}\"" >> ${SETUP_ENV}
 # Run a spack build of Acts
 spack dev-build --until build ${ACTS_SPACK_SPEC}
 cd spack-build
-spack build-env acts-core
 
 # Run the unit tests
-ctest -j8
+spack build-env acts-core ctest -j8
 
 # Run the integration tests as well
-cmake --build . -- integrationtests
+spack build-env acts-core -- cmake --build . -- integrationtests
 
 # Run the benchmarks as well
 cd Tests/Benchmarks
-./ActsBenchmarkAtlasStepper
-./ActsBenchmarkBoundaryCheck
-./ActsBenchmarkEigenStepper
-./ActsBenchmarkSolenoidField
-./ActsBenchmarkSurfaceIntersection
+spack build-env acts-core ./ActsBenchmarkAtlasStepper
+spack build-env acts-core ./ActsBenchmarkBoundaryCheck
+spack build-env acts-core ./ActsBenchmarkEigenStepper
+spack build-env acts-core ./ActsBenchmarkSolenoidField
+spack build-env acts-core ./ActsBenchmarkSurfaceIntersection
