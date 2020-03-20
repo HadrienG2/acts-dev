@@ -19,10 +19,10 @@ docker build --pull --tag acts-dev-base -f Dockerfile.base .
 # bind mount of the Actd development source tree, and the Docker Build
 # Reproducibilty Strike Force won't let us do such an unclean thing.
 #
-docker run -v ~/Bureau/IJCLab/Programmation/acts-core:/mnt/acts-core:ro        \
+docker run -v ~/Bureau/IJCLab/Programmation/acts-core:/mnt/acts-core           \
            --name acts-dev-cont                                                \
            acts-dev-base                                                       \
-           bash /root/acts-build/acts-build-worker.sh
+           bash /root/acts-build-worker.sh
 
 # If the ACTS build succeeded, we can now commit the acts-dev image from the
 # acts-dev-cont container that we just made...

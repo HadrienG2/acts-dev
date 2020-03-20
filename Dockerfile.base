@@ -2,7 +2,7 @@ FROM hgrasland/root-tests:6.18.04-cxx17
 
 RUN zypper in -y perf && zypper clean -a
 
-RUN mkdir /mnt/acts-core /root/acts-build
-COPY acts-build-worker.sh /root/acts-build
+RUN mkdir /mnt/acts-core
+COPY acts-build-worker.sh /root
 
 RUN echo "Base system image built, see build.sh for next steps"

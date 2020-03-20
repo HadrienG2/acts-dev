@@ -8,7 +8,7 @@ set -euo pipefail
 # NOTE: Don't exclude spaces from IFS as spack spec need it
 
 # Go to the build directory
-cd /root/acts-build
+cd /mnt/acts-core
 
 # This is the variant of the Acts package that we are going to build
 ACTS_SPACK_SPEC="acts-core@develop build_type=RelWithDebInfo +benchmarks       \
@@ -24,7 +24,7 @@ ACTS_SPACK_SPEC="acts-core@develop build_type=RelWithDebInfo +benchmarks       \
 echo "export ACTS_SPACK_SPEC=\"${ACTS_SPACK_SPEC}\"" >> ${SETUP_ENV}
 
 # Run a spack build of Acts
-spack dev-build --until build -d /mnt/acts-core ${ACTS_SPACK_SPEC}
+spack dev-build --until build ${ACTS_SPACK_SPEC}
 cd spack-build
 spack build-env acts-core
 
