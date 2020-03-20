@@ -7,8 +7,9 @@
 set -euo pipefail
 # NOTE: Don't exclude spaces from IFS as spack spec need it
 
-# Go to the build directory
+# Go to the build directory and flush remains of previous build
 cd /mnt/acts-core
+rm -rf spack-*
 
 # This is the variant of the Acts package that we are going to build
 ACTS_SPACK_SPEC="acts-core@develop build_type=RelWithDebInfo +benchmarks       \
