@@ -1,6 +1,9 @@
 FROM hgrasland/root-tests:6.20.02-cxx17
 
-RUN zypper in -y perf && zypper clean -a
+RUN zypper modifyrepo --enable repo-debug                                      \
+    && zypper install -y perf gdb glibc-debuginfo libgcc_s1-debuginfo          \
+                         libstdc++6-debuginfo                                  \
+    && zypper clean -a
 
 RUN mkdir /mnt/acts-core
 COPY acts-build-worker.sh /root
