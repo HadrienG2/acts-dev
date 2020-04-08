@@ -12,10 +12,10 @@ cd /mnt/acts-core
 rm -rf spack-*
 
 # This is the variant of the Acts package that we are going to build
-ACTS_SPACK_SPEC="acts-core@develop build_type=RelWithDebInfo +benchmarks       \
-                                   +dd4hep +digitization +examples +fatras     \
-                                   +identification +integration_tests +json    \
-                                   +legacy +tests +tgeo                        \
+ACTS_SPACK_SPEC="acts-core@master build_type=RelWithDebInfo +benchmarks        \
+                                  +dd4hep +digitization +examples +fatras      \
+                                  +identification +integration_tests +json     \
+                                  +legacy +tests +tgeo                         \
                      ^ boost -atomic -chrono cxxstd=17 -date_time -exception   \
                              -filesystem -graph -iostreams -locale -log -math  \
                              +multithreaded +program_options -random -regex    \
