@@ -8,16 +8,16 @@ set -euo pipefail
 # NOTE: Don't exclude spaces from IFS as spack spec need it
 
 # Go to the build directory and flush remains of previous build
-cd /mnt/acts-core
+cd /mnt/acts
 rm -rf spack-*
 
 # This is the variant of the Acts package that we are going to build
-ACTS_SPACK_SPEC="acts-core@master build_type=RelWithDebInfo +benchmarks        \
-                                  +dd4hep +digitization +examples +fatras      \
-                                  +identification +integration_tests +json     \
-                                  +legacy +tests +tgeo                         \
+ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks +dd4hep     \
+                             +digitization +examples +fatras +geant4 +hepmc3   \
+                             +identification +integration_tests +json +legacy  \
+                             +pythia8 +tgeo +unit_tests                        \
                      ^ boost -atomic -chrono cxxstd=17 -date_time -exception   \
-                             -filesystem -graph -iostreams -locale -log -math  \
+                             +filesystem -graph -iostreams -locale -log -math  \
                              +multithreaded +program_options -random -regex    \
                              -serialization +shared -signals -system +test     \
                              -thread -timer -wave                              \
@@ -29,15 +29,15 @@ spack dev-build --until build ${ACTS_SPACK_SPEC}
 cd spack-build
 
 # Run the unit tests
-spack build-env acts-core ctest -j8
+spack build-env acts ctest -j8
 
 # Run the integration tests as well
-spack build-env acts-core -- cmake --build . -- integrationtests
+spack build-env acts -- cmake --build . -- integrationtests
 
 # Run the benchmarks as well
 cd Tests/Benchmarks
-spack build-env acts-core ./ActsBenchmarkAtlasStepper
-spack build-env acts-core ./ActsBenchmarkBoundaryCheck
-spack build-env acts-core ./ActsBenchmarkEigenStepper
-spack build-env acts-core ./ActsBenchmarkSolenoidField
-spack build-env acts-core ./ActsBenchmarkSurfaceIntersection
+spack build-env acts ./ActsBenchmarkAtlasStepper
+spack build-env acts ./ActsBenchmarkBoundaryCheck
+spack build-env acts ./ActsBenchmarkEigenStepper
+spack build-env acts ./ActsBenchmarkSolenoidField
+spack build-env acts ./ActsBenchmarkSurfaceIntersection

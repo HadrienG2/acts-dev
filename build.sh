@@ -2,8 +2,8 @@
 
 ###################### ACTS DEVELOPMENT CONTAINER BUILDER ######################
 # Run this script to regenerate the "acts-dev" docker image based on the       #
-# latest developments of my acts-core repo. When short on time, you can also   #
-# study it to run only the part that you're interested in.                     #
+# latest developments of my acts repo. When short on time, you can also study  #
+# it to run only the part that you're interested in.                           #
 ################################################################################
 
 # Force bash to catch more errors
@@ -19,7 +19,7 @@ docker build --pull --tag acts-dev-base -f Dockerfile.base .
 # bind mount of the Actd development source tree, and the Docker Build
 # Reproducibilty Strike Force won't let us do such an unclean thing.
 #
-docker run -v ~/Bureau/IJCLab/Programmation/acts-core:/mnt/acts-core           \
+docker run -v ~/Bureau/IJCLab/Programmation/acts:/mnt/acts                     \
            --name acts-dev-cont                                                \
            acts-dev-base                                                       \
            bash /root/acts-build-worker.sh
@@ -36,5 +36,5 @@ echo "*** Acts development container was built successfully ***"
 
 # NOTE: The output "acts-dev" image preserves the CMake build cache, so that
 #       you can quickly re-run the build by just firing up a container in
-#       acts-dev with the same bind mount as above, go to /root/acts-build,
+#       acts-dev with the same bind mount as above, go to /mnt/acts/spack-build,
 #       and run "ninja" and whatever else you'd like in there.

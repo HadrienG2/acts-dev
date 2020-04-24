@@ -5,7 +5,7 @@ RUN zypper modifyrepo --enable repo-debug                                      \
                          libstdc++6-debuginfo                                  \
     && zypper clean -a
 
-RUN mkdir /mnt/acts-core
+RUN mkdir /mnt/acts
 COPY acts-build-worker.sh /root
 
 RUN echo "Base system image built, see build.sh for next steps"
