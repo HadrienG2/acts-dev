@@ -12,7 +12,15 @@ cd /mnt/acts
 rm -rf spack-*
 
 # This is the variant of the Acts package that we are going to build
-ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks +dd4hep     \
+#
+# FIXME: xerces-c cxxstd must be forced to "11" because it's "default" by
+#        by default, Geant4 asks for "11", and Spack isn't smart enough to
+#        figure out that these two constraints are compatible.
+#
+# FIXME: dd4hep is disabled because enabling it triggers a link error caused by
+#        what looks like a CMake dependency spaghetti. I'm not touching that.
+#
+ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks -dd4hep     \
                              +digitization +examples +fatras +geant4 +hepmc3   \
                              +identification +integration_tests +json +legacy  \
                              +pythia8 +tgeo +unit_tests                        \
@@ -21,7 +29,8 @@ ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks +dd4hep     \
                              +multithreaded +program_options -random -regex    \
                              -serialization +shared -signals -system +test     \
                              -thread -timer -wave                              \
-                     ^ ${ROOT_SPACK_SPEC}"
+                     ^ ${ROOT_SPACK_SPEC}                                      \
+                     ^ xerces-c cxxstd=11"
 echo "export ACTS_SPACK_SPEC=\"${ACTS_SPACK_SPEC}\"" >> ${SETUP_ENV}
 
 # Run a spack build of Acts
