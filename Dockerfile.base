@@ -1,4 +1,4 @@
-FROM hgrasland/root-tests:6.20.02-cxx17
+FROM hgrasland/root-tests:6.20.04-cxx17
 
 RUN zypper modifyrepo --enable repo-debug                                      \
     && zypper install -y perf gdb glibc-debuginfo libgcc_s1-debuginfo          \
