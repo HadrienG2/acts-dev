@@ -44,7 +44,7 @@ spack build-env acts ctest -j8
 spack build-env acts -- cmake --build . -- integrationtests
 
 # Run the benchmarks as well
-cd Tests/Benchmarks
+cd bin
 spack build-env acts ./ActsBenchmarkAtlasStepper
 spack build-env acts ./ActsBenchmarkBoundaryCheck
 spack build-env acts ./ActsBenchmarkEigenStepper
