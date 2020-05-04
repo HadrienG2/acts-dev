@@ -39,14 +39,56 @@ cd spack-build
 
 # Run the unit tests
 spack build-env acts ctest -j8
+echo "==============="
 
 # Run the integration tests as well
 spack build-env acts -- cmake --build . -- integrationtests
+echo "==============="
 
 # Run the benchmarks as well
 cd bin
 spack build-env acts ./ActsBenchmarkAtlasStepper
+echo "---------------"
 spack build-env acts ./ActsBenchmarkBoundaryCheck
+echo "---------------"
 spack build-env acts ./ActsBenchmarkEigenStepper
+echo "---------------"
 spack build-env acts ./ActsBenchmarkSolenoidField
+echo "---------------"
 spack build-env acts ./ActsBenchmarkSurfaceIntersection
+echo "==============="
+
+# Run the framework examples as well
+cd ../Examples
+spack build-env acts ../bin/ActsExampleGeometryAligned -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExampleGeometryEmpty -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExampleGeometryGeneric -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExampleGeometryPayload -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExampleHelloWorld -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExampleMaterialValidationGeneric -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExamplePropagationAligned -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExamplePropagationEmpty -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsExamplePropagationGeneric -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsGenParticleGun -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsGenPythia8 -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsRecVertexFinder -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsRecVertexFitter -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsRecVertexWriter -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsSimFatrasAligned -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsSimFatrasGeneric -n 100
+echo "==============="
