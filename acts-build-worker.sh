@@ -59,6 +59,28 @@ spack build-env acts ./ActsBenchmarkSurfaceIntersection
 echo "==============="
 
 # Run the framework examples as well
+#
+# FIXME: Cannot test ActsExampleMagneticField, ActsExampleMagneticFieldAccess,
+#        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
+#        ActsRecTruthTracks, ActsRecVertexReader and ActsSimFatrasTGeo as no
+#        input data file is provided and it's unclear how to get one.
+#
+# FIXME: Cannot auto-test ActsExampleGeometryTGeo, ActsExampleHepMC3 and
+#        ActsExamplePropagationTGeo as they do not reliably exit a nonzero
+#        status code upon major failure (e.g. input not found).
+#
+# FIXME: Cannot test ActsExampleGeantinoRecording, ActsExampleGeometryDD4hep,
+#        ActsExampleMaterialMappingDD4hep, ActsExampleMaterialValidationDD4hep,
+#        ActsExamplePropagationDD4hep and ActsSimFatrasDD4hep as the dd4hep
+#        component is currently disabled due to weird build issues (see above).
+#
+#        Even if I got DD4hep to work again, MaterialMapping would still be
+#        problematic due to its lack of clear input file.
+#
+# FIXME: The PayloadDetector-based examples ActsExamplePropagationPayload and
+#        ActsSimFatrasPayload crash with a bad_any_cast, see
+#        https://github.com/acts-project/acts/issues/164 .
+#
 cd ../Examples
 spack build-env acts ../bin/ActsExampleGeometryAligned -n 100
 echo "---------------"
