@@ -114,3 +114,11 @@ spack build-env acts ../bin/ActsSimFatrasAligned -n 100
 echo "---------------"
 spack build-env acts ../bin/ActsSimFatrasGeneric -n 100
 echo "==============="
+
+# Try to keep docker image size down by dropping build stages, downloads, etc
+#
+# Note that you should _not_ run `spack gc` here as that would drop spack
+# packages which are necessary for Acts to build, but not to run. Which is not
+# what we want, we want a working Acts build environment here !
+#
+spack clean -a
