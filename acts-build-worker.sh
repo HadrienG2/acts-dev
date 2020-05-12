@@ -72,8 +72,6 @@ echo "==============="
 #        https://github.com/acts-project/acts/issues/164 .
 #
 cd ../Examples
-spack build-env acts ../bin/ActsExampleGeantinoRecording -n 100
-echo "---------------"
 spack build-env acts ../bin/ActsExampleGeometryAligned -n 100
 echo "---------------"
 spack build-env acts ../bin/ActsExampleGeometryDD4hep -n 100
@@ -113,6 +111,8 @@ echo "---------------"
 spack build-env acts ../bin/ActsSimFatrasDD4hep -n 100
 echo "---------------"
 spack build-env acts ../bin/ActsSimFatrasGeneric -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsSimGeantinoRecording -n 100
 echo "==============="
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
