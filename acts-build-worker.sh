@@ -71,11 +71,9 @@ echo "==============="
 #        ActsSimFatrasPayload crash with a bad_any_cast, see
 #        https://github.com/acts-project/acts/issues/164 .
 #
-# FIXME: The ActsSimGeantinoRecording example currently crashes due to
-#        https://github.com/acts-project/acts/issues/204 and
-#        https://github.com/acts-project/acts/issues/205 . Once that's fixed, it
-#        can run, but will need to be forced into single-threaded mode with -j1
-#        until https://github.com/acts-project/acts/issues/207 is resolved.
+# FIXME: The ActsSimGeantinoRecording example must be forced into
+#        single-threaded mode with -j1 until
+#        https://github.com/acts-project/acts/issues/207 is resolved.
 #
 export DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh
@@ -119,6 +117,8 @@ echo "---------------"
 spack build-env acts ../bin/ActsSimFatrasDD4hep -n 100
 echo "---------------"
 spack build-env acts ../bin/ActsSimFatrasGeneric -n 100
+echo "---------------"
+spack build-env acts ../bin/ActsSimGeantinoRecording -n 100 -j 1
 echo "==============="
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
