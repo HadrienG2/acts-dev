@@ -75,50 +75,53 @@ echo "==============="
 #        single-threaded mode with -j1 until
 #        https://github.com/acts-project/acts/issues/207 is resolved.
 #
-export DD4HEP_PREFIX=`spack location --install-dir dd4hep`
+DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh
-cd ../Examples
-spack build-env acts ../bin/ActsExampleGeometryAligned -n 100
+cd /mnt/acts/Examples
+run_example () {
+    spack build-env acts ../spack-build/bin/$* -n 100
+}
+run_example ActsExampleGeometryAligned
 echo "---------------"
-spack build-env acts ../bin/ActsExampleGeometryDD4hep -n 100
+run_example ActsExampleGeometryDD4hep
 echo "---------------"
-spack build-env acts ../bin/ActsExampleGeometryEmpty -n 100
+run_example ActsExampleGeometryEmpty
 echo "---------------"
-spack build-env acts ../bin/ActsExampleGeometryGeneric -n 100
+run_example ActsExampleGeometryGeneric
 echo "---------------"
-spack build-env acts ../bin/ActsExampleGeometryPayload -n 100
+run_example ActsExampleGeometryPayload
 echo "---------------"
-spack build-env acts ../bin/ActsExampleHelloWorld -n 100
+run_example ActsExampleHelloWorld
 echo "---------------"
-spack build-env acts ../bin/ActsExampleMaterialValidationDD4hep -n 100
+run_example ActsExampleMaterialValidationDD4hep
 echo "---------------"
-spack build-env acts ../bin/ActsExampleMaterialValidationGeneric -n 100
+run_example ActsExampleMaterialValidationGeneric
 echo "---------------"
-spack build-env acts ../bin/ActsExamplePropagationAligned -n 100
+run_example ActsExamplePropagationAligned
 echo "---------------"
-spack build-env acts ../bin/ActsExamplePropagationDD4hep -n 100
+run_example ActsExamplePropagationDD4hep
 echo "---------------"
-spack build-env acts ../bin/ActsExamplePropagationEmpty -n 100
+run_example ActsExamplePropagationEmpty
 echo "---------------"
-spack build-env acts ../bin/ActsExamplePropagationGeneric -n 100
+run_example bin/ActsExamplePropagationGeneric
 echo "---------------"
-spack build-env acts ../bin/ActsGenParticleGun -n 100
+run_example ActsGenParticleGun
 echo "---------------"
-spack build-env acts ../bin/ActsGenPythia8 -n 100
+run_example ActsGenPythia8
 echo "---------------"
-spack build-env acts ../bin/ActsRecVertexFinder -n 100
+run_example ActsRecVertexFinder
 echo "---------------"
-spack build-env acts ../bin/ActsRecVertexFitter -n 100
+run_example ActsRecVertexFitter
 echo "---------------"
-spack build-env acts ../bin/ActsRecVertexWriter -n 100
+run_example ActsRecVertexWriter
 echo "---------------"
-spack build-env acts ../bin/ActsSimFatrasAligned -n 100
+run_example ActsSimFatrasAligned
 echo "---------------"
-spack build-env acts ../bin/ActsSimFatrasDD4hep -n 100
+run_example ActsSimFatrasDD4hep
 echo "---------------"
-spack build-env acts ../bin/ActsSimFatrasGeneric -n 100
+run_example ActsSimFatrasGeneric
 echo "---------------"
-spack build-env acts ../bin/ActsSimGeantinoRecording -n 100 -j 1
+run_example ActsSimGeantinoRecording -j1
 echo "==============="
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
