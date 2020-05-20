@@ -15,18 +15,38 @@ rm -rf spack-*
 #
 # FIXME: Set back to unlimited concurrency once it doesn't OOM anymore
 #
-spack dev-build -j3 --until build ${ACTS_SPACK_SPEC}
+spack install --only dependencies ${ACTS_SPACK_SPEC}
+# NOTE: This is where acts-eagen-deps stopped
+# TODO: Record /usr/bin/time output
+/usr/bin/time -v spack dev-build -j 1 --until build ${ACTS_SPACK_SPEC}
 cd spack-build
 
 # Run the unit tests
+# NOTE: Not reporting ctest timings as they are too small
 spack build-env acts ctest -j8
 echo "==============="
 
+# FIXME: Cross-check the current crop of integration tests and adapt
 # Run the integration tests as well
-spack build-env acts -- cmake --build . -- integrationtests
-echo "==============="
+# NOTE: Can't use `spack build-env acts -- cmake --build . -- integrationtests`
+#       Must manually run them one by one to get fine-grained timings
+# TODO: Record /usr/bin/time output
+cd bin
+for i in {1..3}; do
+    # NOTE: Not reporting ATLSeeding timings as they are too small
+    # GENERAL NOTE: Use spack build-env bash in interactive runs!
+    /usr/bin/time -v spack build-env acts ./ActsIntegrationTestInterpolatedSolenoidBField
+    echo "---------------"
+    /usr/bin/time -v spack build-env acts ./ActsIntegrationTestPropagation
+    echo "---------------"
+    /usr/bin/time -v spack build-env acts ./ActsIntegrationTestBVHNavigation
+    echo "---------------"
+    /usr/bin/time -v spack build-env acts ./ActsIntegrationTestFatrasSimulation
+    echo "==============="
+done
 
 # Run the benchmarks as well
+# TODO: Record benchmark harness output
 cd bin
 spack build-env acts ./ActsBenchmarkAnnulusBoundsBenchmark
 echo "---------------"
@@ -71,42 +91,38 @@ DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 set +u && source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh && set -u
 cd /mnt/acts/Examples
 run_example () {
-    spack build-env --dirty acts ../spack-build/bin/$* -n 100
+    spack build-env --dirty acts                                                       \
+        /usr/bin/time -v                                                       \
+            ../spack-build/bin/$* -n 100 -j1
 }
-run_example ActsExampleGeantinoRecordingDD4hep -j1
-echo "---------------"
-run_example ActsExampleGenParticleGun
-echo "---------------"
-run_example ActsExampleGeometryAligned
-echo "---------------"
-run_example ActsExampleGeometryDD4hep
-echo "---------------"
-run_example ActsExampleGeometryEmpty
-echo "---------------"
-run_example ActsExampleGeometryGeneric
-echo "---------------"
-run_example ActsExampleGeometryPayload
-echo "---------------"
-run_example ActsExampleHelloWorld
-echo "---------------"
-run_example ActsExampleIterativeVertexFinder
-echo "---------------"
-run_example ActsExampleMaterialValidationDD4hep
-echo "---------------"
-run_example ActsExampleMaterialValidationGeneric
-echo "---------------"
-run_example ActsExamplePropagationAligned
-echo "---------------"
-run_example ActsExamplePropagationDD4hep
-echo "---------------"
-run_example ActsExamplePropagationEmpty
-echo "---------------"
-run_example ActsExamplePropagationGeneric
-echo "---------------"
-run_example ActsExamplePythia8
-echo "---------------"
-run_example ActsExampleVertexWriter
-echo "==============="
+for i in {1..3}; do
+    # NOTE: Not running examples GeometryAligned, GeometryEmpty,
+    #       GeometryGeneric, GeometryPayload, HelloWorld and ParticleGun,
+    #       because they are too fast for reproducible timings
+    # TODO: Must record individual job timings
+    run_example ActsExampleGeantinoRecording
+    echo "---------------"
+    run_example ActsExampleGeometryDD4hep
+    echo "---------------"
+    run_example ActsExampleIterativeVertexFinder
+    echo "---------------"
+    run_example ActsExampleMaterialValidationDD4hep
+    echo "---------------"
+    run_example ActsExampleMaterialValidationGeneric
+    echo "---------------"
+    run_example ActsExamplePropagationAligned
+    echo "---------------"
+    run_example ActsExamplePropagationDD4hep
+    echo "---------------"
+    run_example ActsExamplePropagationEmpty
+    echo "---------------"
+    run_example ActsExamplePropagationGeneric
+    echo "---------------"
+    run_example ActsExamplePythia8
+    echo "---------------"
+    run_example ActsExampleVertexWriter
+    echo "==============="
+done
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
 #
