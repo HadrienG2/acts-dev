@@ -31,6 +31,16 @@ ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks +dd4hep     \
 echo "export ACTS_SPACK_SPEC=\"${ACTS_SPACK_SPEC}\"" >> ${SETUP_ENV}
 
 # Run a spack build of Acts
+#
+# NOTE: Dependencies are installed separately because in `--until build` mode,
+#       Spack does not updage the active environment. This means that
+#       dependency packages such as dd4hep are not considered to be installed by
+#       spack, and thus the `spack location` command below will fail.
+#
+#       Also, it makes the overall build significantly less verbose, as only the
+#       custom acts build gets special verbose build output treatment.
+#
+spack install --only dependencies ${ACTS_SPACK_SPEC}
 spack dev-build --until build ${ACTS_SPACK_SPEC}
 cd spack-build
 
