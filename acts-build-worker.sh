@@ -79,7 +79,7 @@ DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh
 cd /mnt/acts/Examples
 run_example () {
-    spack build-env acts ../spack-build/bin/$* -n 100
+    spack build-env --dirty acts ../spack-build/bin/$* -n 100
 }
 run_example ActsExampleGeometryAligned
 echo "---------------"
