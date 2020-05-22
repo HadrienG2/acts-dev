@@ -40,8 +40,10 @@ echo "export ACTS_SPACK_SPEC=\"${ACTS_SPACK_SPEC}\"" >> ${SETUP_ENV}
 #       Also, it makes the overall build significantly less verbose, as only the
 #       custom acts build gets special verbose build output treatment.
 #
+# FIXME: Set back to unlimited concurrency once I have more than 16 GB of RAM
+#
 spack install --only dependencies ${ACTS_SPACK_SPEC}
-spack dev-build --until build ${ACTS_SPACK_SPEC}
+spack dev-build -j3 --until build ${ACTS_SPACK_SPEC}
 cd spack-build
 
 # Run the unit tests
