@@ -11,7 +11,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Build the base system
-docker build --pull --tag acts-dev-base -f Dockerfile.base .
+docker build --pull --squash --tag acts-dev-base -f Dockerfile.base .
 
 # Run the actual Acts build
 #

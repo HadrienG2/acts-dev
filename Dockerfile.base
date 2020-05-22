@@ -1,10 +1,44 @@
 FROM hgrasland/root-tests:6.20.04-cxx17
 
+# Install some useful tools for Acts development
 RUN zypper modifyrepo --enable repo-debug                                      \
     && zypper install -y perf gdb glibc-debuginfo libgcc_s1-debuginfo          \
                          libstdc++6-debuginfo                                  \
     && zypper clean -a
 
+# This is the variant of the Acts package that we are going to build
+#
+# FIXME: xerces-c cxxstd must be forced to "11" because it's "default" by
+#        by default, Geant4 asks for "11", and Spack isn't smart enough to
+#        figure out that these two constraints are compatible.
+#
+RUN ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks +dd4hep \
+                             +digitization +examples +fatras +geant4 +hepmc3   \
+                             +identification +integration_tests +json +legacy  \
+                             +pythia8 +tgeo +unit_tests                        \
+                     ^ boost -atomic -chrono cxxstd=17 -date_time -exception   \
+                             +filesystem -graph -iostreams -locale -log -math  \
+                             +multithreaded +program_options -random -regex    \
+                             -serialization +shared -signals -system +test     \
+                             -thread -timer -wave                              \
+                     ^ ${ROOT_SPACK_SPEC}                                      \
+                     ^ xerces-c cxxstd=11"                                     \
+    && echo "export ACTS_SPACK_SPEC=\"${ACTS_SPACK_SPEC}\"" >> ${SETUP_ENV}
+
+# Install the Acts dependencies in preparation for the Acts build
+#
+# There are several reasons to install Acts dependencies separately:
+# - It's needed for the dependencies to be made part of the active spack
+#   environment, and thus to be available via e.g. `spack location`
+# - If the Acts dev build itself fails, the dependency build is still there,
+#   without a need for dirty docker commit tricks.
+# - It makes the dependency build less verbose
+# - It allows us to use different levels of concurrency for deps and Acts itself
+#
+RUN spack install --only dependencies ${ACTS_SPACK_SPEC}                       \
+    && spack clean -a
+
+# Set up an Acts development build environment
 RUN mkdir /mnt/acts
 COPY acts-build-worker.sh /root
 
