@@ -87,7 +87,7 @@ run_example ActsExamplePropagationDD4hep
 echo "---------------"
 run_example ActsExamplePropagationEmpty
 echo "---------------"
-run_example bin/ActsExamplePropagationGeneric
+run_example ActsExamplePropagationGeneric
 echo "---------------"
 run_example ActsGenParticleGun
 echo "---------------"
