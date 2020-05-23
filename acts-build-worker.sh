@@ -60,7 +60,7 @@ echo "==============="
 #        https://github.com/acts-project/acts/issues/207 is resolved.
 #
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
-source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh
+set +u && source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh && set -u
 cd /mnt/acts/Examples
 run_example () {
     spack build-env --dirty acts ../spack-build/bin/$* -n 100
