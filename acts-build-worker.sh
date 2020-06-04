@@ -93,6 +93,8 @@ run_example ActsGenParticleGun
 echo "---------------"
 run_example ActsGenPythia8
 echo "---------------"
+run_example ActsRecCKFTracks
+echo "---------------"
 run_example ActsRecVertexFinder
 echo "---------------"
 run_example ActsRecVertexFitter
