@@ -90,6 +90,8 @@ echo "==============="
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 set +u && source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh && set -u
 cd /mnt/acts/Examples
+# TODO: Integrate this experiment:
+# run_example () { >timings.log; for i in {1..4}; do echo>>timings.log; /usr/bin/time -v ../spack-build/bin/$1 -n 100 -j1 2>>timings.log; done; cat timings.log; }
 run_example () {
     spack build-env --dirty acts                                                       \
         /usr/bin/time -v                                                       \
