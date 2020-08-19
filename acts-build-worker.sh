@@ -28,11 +28,15 @@ echo "==============="
 
 # Run the benchmarks as well
 cd bin
+spack build-env acts ./ActsBenchmarkAnnulusBoundsBenchmark
+echo "---------------"
 spack build-env acts ./ActsBenchmarkAtlasStepper
 echo "---------------"
 spack build-env acts ./ActsBenchmarkBoundaryCheck
 echo "---------------"
 spack build-env acts ./ActsBenchmarkEigenStepper
+echo "---------------"
+spack build-env acts ./ActsBenchmarkRayFrustumBenchmark
 echo "---------------"
 spack build-env acts ./ActsBenchmarkSolenoidField
 echo "---------------"
@@ -43,9 +47,9 @@ echo "==============="
 #
 # FIXME: Cannot test ActsExampleMagneticField, ActsExampleMagneticFieldAccess,
 #        ActsExampleMaterialMappingDD4hep, ActsExampleMaterialMappingGeneric,
-#        ActsExampleReadCsvGeneric, ActsRecTruthTracks, ActsRecVertexReader and
-#        ActsSimFatrasTGeo as no input data file is provided and it's unclear
-#        how to get one.
+#        ActsExampleReadCsvGeneric, ActsRecCKFTracks, ActsRecTruthTracks,
+#        ActsRecVertexFinder, ActsRecVertexReader and ActsSimFatrasTGeo as no
+#        input data file is provided and it's unclear how to get one.
 #
 # FIXME: Cannot auto-test ActsExampleGeometryTGeo, ActsExampleHepMC3 and
 #        ActsExamplePropagationTGeo as they do not reliably exit a nonzero
@@ -56,8 +60,7 @@ echo "==============="
 #        https://github.com/acts-project/acts/issues/164 .
 #
 # FIXME: The ActsSimGeantinoRecording example must be forced into
-#        single-threaded mode with -j1 until
-#        https://github.com/acts-project/acts/issues/207 is resolved.
+#        single-threaded, see https://github.com/acts-project/acts/issues/207 .
 #
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 set +u && source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh && set -u
@@ -92,10 +95,6 @@ echo "---------------"
 run_example ActsGenParticleGun
 echo "---------------"
 run_example ActsGenPythia8
-echo "---------------"
-run_example ActsRecCKFTracks
-echo "---------------"
-run_example ActsRecVertexFinder
 echo "---------------"
 run_example ActsRecVertexFitter
 echo "---------------"

@@ -12,10 +12,13 @@ RUN zypper modifyrepo --enable repo-debug                                      \
 #        by default, Geant4 asks for "11", and Spack isn't smart enough to
 #        figure out that these two constraints are compatible.
 #
-RUN ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks +dd4hep \
-                             +digitization +examples +fatras +geant4 +hepmc3   \
-                             +identification +integration_tests +json +legacy  \
-                             +pythia8 +tgeo +unit_tests                        \
+# FIXME: Must disable hepmc3 for now because it brings in heppdt, which is
+#        hosted at lcgapp.cern.ch, which is currently down.
+#
+RUN ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +benchmarks -cuda   \
+                             +dd4hep +digitization +examples +fatras +geant4   \
+                             -hepmc3 +identification +integration_tests +json  \
+                             +legacy +pythia8 +tgeo +unit_tests                \
                      ^ boost -atomic -chrono cxxstd=17 -date_time -exception   \
                              +filesystem -graph -iostreams -locale -log -math  \
                              +multithreaded +program_options -random -regex    \
