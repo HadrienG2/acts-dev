@@ -13,9 +13,9 @@ rm -rf spack-*
 
 # Run a spack build of Acts
 #
-# FIXME: Set back to unlimited concurrency once I have more than 16 GB of RAM
+# FIXME: Set back to unlimited concurrency once it doesn't OOM anymore
 #
-spack dev-build -j2 --until build ${ACTS_SPACK_SPEC}
+spack dev-build -j3 --until build ${ACTS_SPACK_SPEC}
 cd spack-build
 
 # Run the unit tests
@@ -45,21 +45,27 @@ echo "==============="
 
 # Run the framework examples as well
 #
-# FIXME: Cannot test ActsExampleMagneticField, ActsExampleMagneticFieldAccess,
-#        ActsExampleMaterialMappingDD4hep, ActsExampleMaterialMappingGeneric,
-#        ActsExampleReadCsvGeneric, ActsRecCKFTracks, ActsRecTruthTracks,
-#        ActsRecVertexFinder, ActsRecVertexReader and ActsSimFatrasTGeo as no
-#        input data file is provided and it's unclear how to get one.
+# FIXME: Cannot test ActsExampleMagneticField, ActsExampleGeantinoRecordingGdml,
+#        ActsExampleMagneticFieldAccess, ActsExampleMaterialMappingDD4hep,
+#        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
+#        ActsExampleCKFTracks, ActsExampleTruthTracks,
+#        ActsExampleIterativeVertexFinder, ActsExampleVertexReader and
+#        ActsExampleFatrasTGeo as no input data file is provided and it's
+#        unclear how to get one.
 #
-# FIXME: Cannot auto-test ActsExampleGeometryTGeo, ActsExampleHepMC3 and
-#        ActsExamplePropagationTGeo as they do not reliably exit a nonzero
-#        status code upon major failure (e.g. input not found).
+# FIXME: Cannot auto-test ActsExampleAdaptiveMultiVertexFinder,
+#        ActsExampleFatrasAligned, ActsExampleFatrasDD4hep,
+#        ActsExampleFatrasGeneric, ActsExampleGeometryTGeo, ActsExampleHepMC3,
+#        ActsExamplePropagationEmpty, ActsExamplePropagationTGeo and
+#        ActsExampleVertexFitter, ActsExampleVertexWriter, as they do not
+#        reliably exit with a nonzero status code upon major failure (e.g. input
+#        not found).
 #
 # FIXME: The PayloadDetector-based examples ActsExamplePropagationPayload and
-#        ActsSimFatrasPayload crash with a bad_any_cast, see
+#        ActsExampleFatrasPayload crash with a bad_any_cast, see
 #        https://github.com/acts-project/acts/issues/164 .
 #
-# FIXME: The ActsSimGeantinoRecording example must be forced into
+# FIXME: The ActsSimGeantinoRecordingDD4hep example must be forced into
 #        single-threaded, see https://github.com/acts-project/acts/issues/207 .
 #
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
@@ -68,6 +74,10 @@ cd /mnt/acts/Examples
 run_example () {
     spack build-env --dirty acts ../spack-build/bin/$* -n 100
 }
+run_example ActsExampleGeantinoRecordingDD4hep -j1
+echo "---------------"
+run_example ActsExampleGenParticleGun
+echo "---------------"
 run_example ActsExampleGeometryAligned
 echo "---------------"
 run_example ActsExampleGeometryDD4hep
@@ -88,25 +98,9 @@ run_example ActsExamplePropagationAligned
 echo "---------------"
 run_example ActsExamplePropagationDD4hep
 echo "---------------"
-run_example ActsExamplePropagationEmpty
-echo "---------------"
 run_example ActsExamplePropagationGeneric
 echo "---------------"
-run_example ActsGenParticleGun
-echo "---------------"
-run_example ActsGenPythia8
-echo "---------------"
-run_example ActsRecVertexFitter
-echo "---------------"
-run_example ActsRecVertexWriter
-echo "---------------"
-run_example ActsSimFatrasAligned
-echo "---------------"
-run_example ActsSimFatrasDD4hep
-echo "---------------"
-run_example ActsSimFatrasGeneric
-echo "---------------"
-run_example ActsSimGeantinoRecording -j1
+run_example ActsExamplePythia8
 echo "==============="
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
