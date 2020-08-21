@@ -1,12 +1,8 @@
 FROM hgrasland/root-tests:6.22.00-cxx17
 
 # Install some useful tools for Acts development
-#
-# NOTE: We need clang, but since we're currently building with clang, it's
-#       already present in the base image.
-#
 RUN zypper modifyrepo --enable repo-debug                                      \
-    && zypper install -y perf gdb glibc-debuginfo libgcc_s1-debuginfo          \
+    && zypper install -y clang perf gdb glibc-debuginfo libgcc_s1-debuginfo    \
                          libstdc++6-debuginfo                                  \
     && zypper clean -a
 
