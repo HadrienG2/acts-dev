@@ -3,7 +3,7 @@ FROM hgrasland/root-tests:6.22.00-cxx17
 # Install some useful tools for Acts development
 RUN zypper modifyrepo --enable repo-debug                                      \
     && zypper install -y clang perf gdb glibc-debuginfo libgcc_s1-debuginfo    \
-                         libstdc++6-debuginfo                                  \
+                         libstdc++6-debuginfo time                             \
     && zypper clean -a
 
 # This is the variant of the Acts package that we are going to build
