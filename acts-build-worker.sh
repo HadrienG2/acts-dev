@@ -46,20 +46,19 @@ echo "==============="
 # Run the framework examples as well
 #
 # FIXME: Cannot test ActsExampleMagneticField, ActsExampleGeantinoRecordingGdml,
-#        ActsExampleMagneticFieldAccess, ActsExampleMaterialMappingDD4hep,
+#        ActsExampleMagneticFieldAcess, ActsExampleMaterialMappingDD4hep,
 #        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
-#        ActsExampleCKFTracks, ActsExampleTruthTracks,
-#        ActsExampleIterativeVertexFinder, ActsExampleVertexReader and
-#        ActsExampleFatrasTGeo as no input data file is provided and it's
+#        ActsExampleCKFTracks, ActsExampleTruthTracks and
+#        ActsExampleVertexReader as no input data file is provided and it's
 #        unclear how to get one.
 #
 # FIXME: Cannot auto-test ActsExampleAdaptiveMultiVertexFinder,
 #        ActsExampleFatrasAligned, ActsExampleFatrasDD4hep,
-#        ActsExampleFatrasGeneric, ActsExampleGeometryTGeo, ActsExampleHepMC3,
-#        ActsExamplePropagationEmpty, ActsExamplePropagationTGeo and
-#        ActsExampleVertexFitter, ActsExampleVertexWriter, as they do not
-#        reliably exit with a nonzero status code upon major failure (e.g. input
-#        not found).
+#        ActsExampleFatrasGeneric, ActsExampleFatrasTGeo,
+#        ActsExampleGeometryTGeo, ActsExampleHepMC3, ActsExamplePropagationTGeo
+#        and ActsExampleVertexFitter as they do not reliably exit with a nonzero
+#        status code upon major failure (e.g. input not found, propagation
+#        failed...).
 #
 # FIXME: The PayloadDetector-based examples ActsExamplePropagationPayload and
 #        ActsExampleFatrasPayload crash with a bad_any_cast, see
@@ -90,6 +89,8 @@ run_example ActsExampleGeometryPayload
 echo "---------------"
 run_example ActsExampleHelloWorld
 echo "---------------"
+run_example ActsExampleIterativeVertexFinder
+echo "---------------"
 run_example ActsExampleMaterialValidationDD4hep
 echo "---------------"
 run_example ActsExampleMaterialValidationGeneric
@@ -98,9 +99,13 @@ run_example ActsExamplePropagationAligned
 echo "---------------"
 run_example ActsExamplePropagationDD4hep
 echo "---------------"
+run_example ActsExamplePropagationEmpty
+echo "---------------"
 run_example ActsExamplePropagationGeneric
 echo "---------------"
 run_example ActsExamplePythia8
+echo "---------------"
+run_example ActsExampleVertexWriter
 echo "==============="
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
