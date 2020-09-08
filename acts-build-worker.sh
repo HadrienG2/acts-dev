@@ -45,7 +45,7 @@ echo "==============="
 
 # Run the framework examples as well
 #
-# FIXME: Cannot test ActsExampleMagneticField, ActsExampleGeantinoRecordingGdml,
+# FIXME: Cannot test ActsExampleGeantinoRecordingGdml, ActsExampleMagneticField,
 #        ActsExampleMagneticFieldAcess, ActsExampleMaterialMappingDD4hep,
 #        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
 #        ActsExampleCKFTracks, ActsExampleTruthTracks and
@@ -64,14 +64,14 @@ echo "==============="
 #        ActsExampleFatrasPayload crash with a bad_any_cast, see
 #        https://github.com/acts-project/acts/issues/164 .
 #
-# FIXME: The ActsSimGeantinoRecordingDD4hep example must be forced into
+# FIXME: The ActsExampleGeantinoRecordingDD4hep example must be forced into
 #        single-threaded, see https://github.com/acts-project/acts/issues/207 .
 #
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 set +u && source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh && set -u
 cd /mnt/acts/Examples
 run_example () {
-    spack build-env --dirty acts ../spack-build/bin/$* -n 100
+    spack build-env --dirty acts /mnt/acts/spack-build/bin/$* -n 100
 }
 run_example ActsExampleGeantinoRecordingDD4hep -j1
 echo "---------------"
