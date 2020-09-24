@@ -7,8 +7,7 @@
 set -euo pipefail
 # NOTE: Don't exclude spaces from IFS as spack spec need it
 
-# Go to the build directory and flush remains of previous build
-cd /mnt/acts
+# Flush remains of any previous build
 rm -rf spack-*
 
 # Run a spack build of Acts
@@ -18,29 +17,34 @@ rm -rf spack-*
 spack dev-build -j3 --until build ${ACTS_SPACK_SPEC}
 cd spack-build
 
+# We're done with Spack ops, so we can perma-source the acts build environment
+# since that's what the user of this Acts development image will always want.
+source ~/acts-build-env.sh
+echo "source ~/acts-build-env.sh" >> ${SETUP_ENV}
+
 # Run the unit tests
-spack build-env acts ctest -j8
+ctest -j8
 echo "==============="
 
 # Run the integration tests as well
-spack build-env acts -- cmake --build . -- integrationtests
+cmake --build . -- integrationtests
 echo "==============="
 
 # Run the benchmarks as well
 cd bin
-spack build-env acts ./ActsBenchmarkAnnulusBoundsBenchmark
+./ActsBenchmarkAnnulusBoundsBenchmark
 echo "---------------"
-spack build-env acts ./ActsBenchmarkAtlasStepper
+./ActsBenchmarkAtlasStepper
 echo "---------------"
-spack build-env acts ./ActsBenchmarkBoundaryCheck
+./ActsBenchmarkBoundaryCheck
 echo "---------------"
-spack build-env acts ./ActsBenchmarkEigenStepper
+./ActsBenchmarkEigenStepper
 echo "---------------"
-spack build-env acts ./ActsBenchmarkRayFrustumBenchmark
+./ActsBenchmarkRayFrustumBenchmark
 echo "---------------"
-spack build-env acts ./ActsBenchmarkSolenoidField
+./ActsBenchmarkSolenoidField
 echo "---------------"
-spack build-env acts ./ActsBenchmarkSurfaceIntersection
+./ActsBenchmarkSurfaceIntersection
 echo "==============="
 
 # Run the framework examples as well
@@ -73,9 +77,7 @@ echo "==============="
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 set +u && source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh && set -u
 cd /mnt/acts/Examples
-run_example () {
-    spack build-env --dirty acts /mnt/acts/spack-build/bin/$* -n 100
-}
+run_example () { /mnt/acts/spack-build/bin/$* -n 100; }
 run_example ActsExampleGeantinoRecordingDD4hep -j1
 echo "---------------"
 run_example ActsExampleGenParticleGun

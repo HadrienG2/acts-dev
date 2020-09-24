@@ -41,5 +41,10 @@ RUN spack install --only dependencies ${ACTS_SPACK_SPEC}                       \
 # Set up an Acts development build environment
 RUN mkdir /mnt/acts
 COPY acts-build-worker.sh /root
+WORKDIR /mnt/acts
+
+# Cache the build environment so that the user does not need to run the slow
+# "spack build-env $ACTS_SPACK_SPEC -- <something>" command over and over again.
+RUN spack build-env --dump ~/acts-build-env.sh $ACTS_SPACK_SPEC --
 
 RUN echo "Base system image built, see build.sh for next steps"
