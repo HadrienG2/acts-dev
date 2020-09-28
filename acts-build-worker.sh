@@ -22,6 +22,11 @@ cd spack-build
 source ~/acts-build-env.sh
 echo "source ~/acts-build-env.sh" >> ${SETUP_ENV}
 
+# FIXME: Must disable bits of Spack's python environment, as that interacts
+#        badly with the system python installation and prevents using gdb.
+echo "unset PYTHONHOME" >> ${SETUP_ENV}
+echo "unset PYTHONPATH" >> ${SETUP_ENV}
+
 # Run the unit tests
 ctest -j8
 echo "==============="
@@ -75,7 +80,9 @@ echo "==============="
 #        infinite step count.
 #
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
-set +u && source ${DD4HEP_PREFIX}/bin/thisdd4hep.sh && set -u
+DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
+set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
+echo "source ${DD4HEP_ENV_SCRIPT}" > ${SETUP_ENV}
 cd /mnt/acts/Examples
 run_example () { /mnt/acts/spack-build/bin/$* -n 100; }
 run_example ActsExampleGeantinoRecordingDD4hep -j1
