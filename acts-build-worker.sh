@@ -52,32 +52,33 @@ echo "---------------"
 ./ActsBenchmarkSurfaceIntersection
 echo "==============="
 
-# Run the framework examples as well
+# Run the examples (skip some in Debug builds, as they are too slow)
 #
 # FIXME: Cannot test ActsExampleGeantinoRecordingGdml, ActsExampleMagneticField,
-#        ActsExampleMagneticFieldAcess, ActsExampleMaterialMappingDD4hep,
+#        ActsExampleMagneticFieldAccess, ActsExampleMaterialMappingDD4hep,
 #        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
 #        ActsExampleCKFTracks, ActsExampleTruthTracks and
-#        ActsExampleVertexReader as no input data file is provided and it's
-#        unclear how to get one.
+#        ActsExampleVertexFinderReader as no input data file
+#        is provided and it's unclear how to get one.
 #
 # FIXME: Cannot auto-test ActsExampleAdaptiveMultiVertexFinder,
 #        ActsExampleFatrasAligned, ActsExampleFatrasDD4hep,
 #        ActsExampleFatrasGeneric, ActsExampleFatrasTGeo,
-#        ActsExampleGeometryTGeo, ActsExampleHepMC3, ActsExamplePropagationTGeo
-#        and ActsExampleVertexFitter as they do not reliably exit with a nonzero
-#        status code upon major failure (e.g. input not found, propagation
-#        failed...).
+#        ActsExampleGeometryTGeo, ActsExampleHepMC3,
+#        ActsExampleMaterialMappingTGeo, ActsExampleMaterialValidationTGeo,
+#        ActsExamplePropagationTGeo and ActsExampleVertexFitter as they do not
+#        reliably exit a nonzero status code upon major failure (e.g. input not
+#        found).
 #
 # FIXME: The PayloadDetector-based examples ActsExamplePropagationPayload and
 #        ActsExampleFatrasPayload crash with a bad_any_cast, see
 #        https://github.com/acts-project/acts/issues/164 .
 #
-# FIXME: The ActsExampleGeantinoRecordingDD4hep example must be forced into
+# FIXME: ActsExampleGeantinoRecording must currently be forced into
 #        single-threaded, see https://github.com/acts-project/acts/issues/207 .
 #
-# FIXME: ActsExamplePropagationEmpty fails for unknown reasons, reaching an
-#        infinite step count.
+# FIXME: ActsExampleIterativeVertexFinder and ActsExamplePropagationEmpty fail
+#        for unknown reasons, reaching an infinite step count.
 #
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
@@ -101,8 +102,6 @@ run_example ActsExampleGeometryPayload
 echo "---------------"
 run_example ActsExampleHelloWorld
 echo "---------------"
-run_example ActsExampleIterativeVertexFinder
-echo "---------------"
 run_example ActsExampleMaterialValidationDD4hep
 echo "---------------"
 run_example ActsExampleMaterialValidationGeneric
@@ -115,7 +114,7 @@ run_example ActsExamplePropagationGeneric
 echo "---------------"
 run_example ActsExamplePythia8
 echo "---------------"
-run_example ActsExampleVertexWriter
+run_example ActsTutorialVertexFinder
 echo "==============="
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
