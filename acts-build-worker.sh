@@ -15,7 +15,9 @@ rm -rf spack-*
 # FIXME: Set back to unlimited concurrency once it doesn't OOM anymore
 #
 spack dev-build -j3 --until build ${ACTS_SPACK_SPEC}
-cd spack-build
+ACTS_BUILD_DIR_NAME=`ls | grep -E "^spack-build[^.]*$"`
+ACTS_BUILD_DIR=/mnt/acts/${ACTS_BUILD_DIR_NAME}
+cd ${ACTS_BUILD_DIR}
 
 # We're done with Spack ops, so we can perma-source the acts build environment
 # since that's what the user of this Acts development image will always want.
@@ -85,7 +87,7 @@ DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
 set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
 echo "source ${DD4HEP_ENV_SCRIPT}" > ${SETUP_ENV}
 cd /mnt/acts/Examples
-run_example () { /mnt/acts/spack-build/bin/$* -n 100; }
+run_example () { ${ACTS_BUILD_DIR}/bin/$* -n 100; }
 run_example ActsExampleGeantinoRecordingDD4hep -j1
 echo "---------------"
 run_example ActsExampleGenParticleGun
