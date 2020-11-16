@@ -56,7 +56,8 @@ echo "==============="
 
 # Run the examples (skip some in Debug builds, as they are too slow)
 #
-# FIXME: Cannot test ActsExampleGeantinoRecordingGdml, ActsExampleMagneticField,
+# FIXME: Cannot test ActsExampleEventRecording,
+#        ActsExampleGeantinoRecordingGdml, ActsExampleMagneticField,
 #        ActsExampleMagneticFieldAccess, ActsExampleMaterialMappingDD4hep,
 #        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
 #        ActsExampleCKFTracksDD4hep, ActsExampleTruthTracksDD4hep,
@@ -89,8 +90,6 @@ set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
 echo "source ${DD4HEP_ENV_SCRIPT}" > ${SETUP_ENV}
 cd /mnt/acts/Examples
 run_example () { ${ACTS_BUILD_DIR}/bin/$* -n 100; }
-run_example ActsExampleEventRecording
-echo "---------------"
 run_example ActsExampleGeantinoRecordingDD4hep -j1
 echo "---------------"
 run_example ActsExampleGeometryAligned
