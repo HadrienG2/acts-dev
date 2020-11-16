@@ -59,7 +59,8 @@ echo "==============="
 # FIXME: Cannot test ActsExampleGeantinoRecordingGdml, ActsExampleMagneticField,
 #        ActsExampleMagneticFieldAccess, ActsExampleMaterialMappingDD4hep,
 #        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
-#        ActsExampleCKFTracks, ActsExampleTruthTracks and
+#        ActsExampleCKFTracksDD4hep, ActsExampleTruthTracksDD4hep,
+#        ActsExampleCKFTracksGeneric, ActsExampleTruthTracksGeneric and
 #        ActsExampleVertexFinderReader as no input data file
 #        is provided and it's unclear how to get one.
 #
@@ -88,9 +89,9 @@ set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
 echo "source ${DD4HEP_ENV_SCRIPT}" > ${SETUP_ENV}
 cd /mnt/acts/Examples
 run_example () { ${ACTS_BUILD_DIR}/bin/$* -n 100; }
-run_example ActsExampleGeantinoRecordingDD4hep -j1
+run_example ActsExampleEventRecording
 echo "---------------"
-run_example ActsExampleGenParticleGun
+run_example ActsExampleGeantinoRecordingDD4hep -j1
 echo "---------------"
 run_example ActsExampleGeometryAligned
 echo "---------------"
@@ -107,6 +108,8 @@ echo "---------------"
 run_example ActsExampleMaterialValidationDD4hep
 echo "---------------"
 run_example ActsExampleMaterialValidationGeneric
+echo "---------------"
+run_example ActsExampleParticleGun
 echo "---------------"
 run_example ActsExamplePropagationAligned
 echo "---------------"
