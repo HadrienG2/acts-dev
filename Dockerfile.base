@@ -1,4 +1,4 @@
-FROM hgrasland/root-tests:6.22.00-cxx17
+FROM hgrasland/root-tests:6.22.06-cxx17
 
 # Install some useful tools for Acts development
 RUN zypper modifyrepo --enable repo-debug                                      \
@@ -12,7 +12,7 @@ RUN zypper modifyrepo --enable repo-debug                                      \
 #        by default, Geant4 asks for "11", and Spack isn't smart enough to
 #        figure out that these two constraints are compatible.
 #
-RUN ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +autodiff
+RUN ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +autodiff           \
                              +benchmarks -cuda +dd4hep +digitization +examples \
                              +fatras +geant4 +hepmc3 +identification           \
                              +integration_tests +json +legacy +pythia8 +tgeo   \
