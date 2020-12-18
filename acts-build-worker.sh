@@ -84,6 +84,8 @@ echo "==============="
 # FIXME: ActsExampleIterativeVertexFinder and ActsExamplePropagationEmpty fail
 #        for unknown reasons, reaching an infinite step count.
 #
+# TODO: Add seeding examples
+#
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
 set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
