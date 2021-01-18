@@ -104,6 +104,8 @@ run_example ActsExampleGeometryGeneric
 echo "---------------"
 run_example ActsExampleGeometryPayload
 echo "---------------"
+run_example ActsExampleGeometryTelescope
+echo "---------------"
 run_example ActsExampleHelloWorld
 echo "---------------"
 run_example ActsExampleMaterialValidationDD4hep
