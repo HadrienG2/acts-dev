@@ -22,6 +22,7 @@ RUN ACTS_SPACK_SPEC="acts@master build_type=RelWithDebInfo +autodiff           \
                              +multithreaded +program_options -random -regex    \
                              -serialization +shared -signals -system +test     \
                              -thread -timer -wave                              \
+                     ^ dd4hep -edm4hep                                         \
                      ^ ${ROOT_SPACK_SPEC}                                      \
                      ^ xerces-c cxxstd=11"                                     \
     && echo "export ACTS_SPACK_SPEC=\"${ACTS_SPACK_SPEC}\"" >> ${SETUP_ENV}
