@@ -90,7 +90,7 @@ DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
 DD4HEP_INPUT="--dd4hep-input file:/mnt/acts/Examples/Detectors/DD4hepDetector/compact/OpenDataDetector/OpenDataDetector.xml"
 set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
-echo "source ${DD4HEP_ENV_SCRIPT}" > ${SETUP_ENV}
+echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
 cd /mnt/acts/Examples
 run_example () { ${ACTS_BUILD_DIR}/bin/$* -n 100; }
 run_example ActsExampleGeantinoRecordingDD4hep -j1 ${DD4HEP_INPUT}
