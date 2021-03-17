@@ -54,77 +54,15 @@ echo "---------------"
 ./ActsBenchmarkSurfaceIntersection
 echo "==============="
 
-# Run the examples (skip some in Debug builds, as they are too slow)
-#
-# FIXME: Cannot test ActsExampleEventRecording,
-#        ActsExampleGeantinoRecordingGdml, ActsExampleMagneticField,
-#        ActsExampleMagneticFieldAccess, ActsExampleMaterialMappingDD4hep,
-#        ActsExampleMaterialMappingGeneric, ActsExampleReadCsvGeneric,
-#        ActsExampleCKFTracksDD4hep, ActsExampleTruthTracksDD4hep,
-#        ActsExampleCKFTracksGeneric, ActsExampleTruthTracksGeneric and
-#        ActsExampleVertexFinderReader as no input data file
-#        is provided and it's unclear how to get one.
-#
-# FIXME: Cannot auto-test ActsExampleAdaptiveMultiVertexFinder,
-#        ActsExampleFatrasAligned, ActsExampleFatrasDD4hep,
-#        ActsExampleFatrasGeneric, ActsExampleFatrasTGeo,
-#        ActsExampleGeometryTGeo, ActsExampleHepMC3,
-#        ActsExampleMaterialMappingTGeo, ActsExampleMaterialValidationTGeo,
-#        ActsExamplePropagationTGeo and ActsExampleVertexFitter as they do not
-#        reliably exit a nonzero status code upon major failure (e.g. input not
-#        found).
-#
-# FIXME: The PayloadDetector-based examples ActsExamplePropagationPayload and
-#        ActsExampleFatrasPayload crash with a bad_any_cast, see
-#        https://github.com/acts-project/acts/issues/164 .
-#
-# FIXME: ActsExampleGeantinoRecording must currently be forced into
-#        single-threaded, see https://github.com/acts-project/acts/issues/207 .
-#
-# FIXME: ActsExampleIterativeVertexFinder and ActsExamplePropagationEmpty fail
-#        for unknown reasons, reaching an infinite step count.
-#
-# TODO: Add seeding examples
-#
+# Run the examples
 DD4HEP_PREFIX=`spack location --install-dir dd4hep`
 DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
 DD4HEP_INPUT="--dd4hep-input file:/mnt/acts/Examples/Detectors/DD4hepDetector/compact/OpenDataDetector/OpenDataDetector.xml"
 set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
 echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
-cd /mnt/acts/Examples
-run_example () { ${ACTS_BUILD_DIR}/bin/$* -n 100; }
-run_example ActsExampleGeantinoRecordingDD4hep -j1 ${DD4HEP_INPUT}
-echo "---------------"
-run_example ActsExampleGeometryAligned
-echo "---------------"
-run_example ActsExampleGeometryDD4hep ${DD4HEP_INPUT}
-echo "---------------"
-run_example ActsExampleGeometryEmpty
-echo "---------------"
-run_example ActsExampleGeometryGeneric
-echo "---------------"
-run_example ActsExampleGeometryPayload
-echo "---------------"
-run_example ActsExampleGeometryTelescope
-echo "---------------"
-run_example ActsExampleHelloWorld
-echo "---------------"
-run_example ActsExampleMaterialValidationDD4hep ${DD4HEP_INPUT}
-echo "---------------"
-run_example ActsExampleMaterialValidationGeneric
-echo "---------------"
-run_example ActsExampleParticleGun
-echo "---------------"
-run_example ActsExamplePropagationAligned
-echo "---------------"
-run_example ActsExamplePropagationDD4hep ${DD4HEP_INPUT}
-echo "---------------"
-run_example ActsExamplePropagationGeneric
-echo "---------------"
-run_example ActsExamplePythia8
-echo "---------------"
-run_example ActsTutorialVertexFinder
-echo "==============="
+cd /mnt/acts
+set +e && ln -s ${ACTS_BUILD_DIR} ${ACTS_SRC_DIR}/build; set -e
+./CI/run_examples.sh
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
 #
