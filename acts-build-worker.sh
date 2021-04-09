@@ -19,6 +19,20 @@ ACTS_BUILD_DIR_NAME=`ls | grep -E "^spack-build[^.]*$"`
 ACTS_BUILD_DIR=/mnt/acts/${ACTS_BUILD_DIR_NAME}
 cd ${ACTS_BUILD_DIR}
 
+# Set up the dd4hep environment
+DD4HEP_PREFIX=`spack location --install-dir dd4hep`
+DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
+set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
+echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
+
+# Try to keep docker image size down by dropping build stages, downloads, etc
+#
+# Note that you should _not_ run `spack gc` here as that would drop spack
+# packages which are necessary for Acts to build, but not to run. Which is not
+# what we want, we want a working Acts build environment here !
+#
+spack clean -a
+
 # We're done with Spack ops, so we can perma-source the acts build environment
 # since that's what the user of this Acts development image will always want.
 source ~/acts-build-env.sh
@@ -55,19 +69,7 @@ echo "---------------"
 echo "==============="
 
 # Run the examples
-DD4HEP_PREFIX=`spack location --install-dir dd4hep`
-DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
 DD4HEP_INPUT="--dd4hep-input file:/mnt/acts/Examples/Detectors/DD4hepDetector/compact/OpenDataDetector/OpenDataDetector.xml"
-set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
-echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
 cd /mnt/acts
 set +e && ln -s ${ACTS_BUILD_DIR} ${ACTS_SRC_DIR}/build; set -e
 ./CI/run_examples.sh
-
-# Try to keep docker image size down by dropping build stages, downloads, etc
-#
-# Note that you should _not_ run `spack gc` here as that would drop spack
-# packages which are necessary for Acts to build, but not to run. Which is not
-# what we want, we want a working Acts build environment here !
-#
-spack clean -a
