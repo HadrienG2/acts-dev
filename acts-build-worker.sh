@@ -16,7 +16,8 @@ rm -rf spack-*
 #
 spack dev-build -j3 --until build ${ACTS_SPACK_SPEC}
 ACTS_BUILD_DIR_NAME=`ls | grep -E "^spack-build[^.]*$"`
-ACTS_BUILD_DIR=/mnt/acts/${ACTS_BUILD_DIR_NAME}
+ACTS_SRC_DIR=/mnt/acts
+ACTS_BUILD_DIR=${ACTS_SRC_DIR}/${ACTS_BUILD_DIR_NAME}
 cd ${ACTS_BUILD_DIR}
 
 # Set up the dd4hep environment
@@ -69,7 +70,7 @@ echo "---------------"
 echo "==============="
 
 # Run the examples
-DD4HEP_INPUT="--dd4hep-input file:/mnt/acts/Examples/Detectors/DD4hepDetector/compact/OpenDataDetector/OpenDataDetector.xml"
-cd /mnt/acts
+DD4HEP_INPUT="--dd4hep-input file:${ACTS_SRC_DIR}/Examples/Detectors/DD4hepDetector/compact/OpenDataDetector/OpenDataDetector.xml"
+cd ${ACTS_SRC_DIR}
 set +e && ln -s ${ACTS_BUILD_DIR} ${ACTS_SRC_DIR}/build; set -e
 ./CI/run_examples.sh
