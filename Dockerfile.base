@@ -1,4 +1,4 @@
-FROM hgrasland/root-tests:6.24.00-cxx17
+FROM hgrasland/root-tests:6.24.02-cxx17
 
 # Install some useful tools for Acts development
 RUN zypper modifyrepo --enable repo-debug                                      \
