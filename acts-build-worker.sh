@@ -11,10 +11,7 @@ set -euo pipefail
 rm -rf spack-*
 
 # Run a spack build of Acts
-#
-# FIXME: Set back to unlimited concurrency once it doesn't OOM anymore
-#
-spack dev-build -j3 --until build ${ACTS_SPACK_SPEC}
+spack dev-build --until build ${ACTS_SPACK_SPEC}
 ACTS_BUILD_DIR_NAME=`ls | grep -E "^spack-build[^.]*$"`
 ACTS_SRC_DIR=/mnt/acts
 ACTS_BUILD_DIR=${ACTS_SRC_DIR}/${ACTS_BUILD_DIR_NAME}
