@@ -67,7 +67,6 @@ echo "---------------"
 echo "==============="
 
 # Run the examples
-DD4HEP_INPUT="--dd4hep-input file:${ACTS_SRC_DIR}/Examples/Detectors/DD4hepDetector/compact/OpenDataDetector/OpenDataDetector.xml"
 cd ${ACTS_SRC_DIR}
 rm -f ${ACTS_SRC_DIR}/build
 ln -s ${ACTS_BUILD_DIR} ${ACTS_SRC_DIR}/build
