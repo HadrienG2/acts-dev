@@ -42,7 +42,7 @@ echo "unset PYTHONHOME" >> ${SETUP_ENV}
 echo "unset PYTHONPATH" >> ${SETUP_ENV}
 
 # Run the unit tests
-ctest -j8
+ctest -j$(nproc)
 echo "==============="
 
 # Run the integration tests as well
