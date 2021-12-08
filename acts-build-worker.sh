@@ -12,13 +12,13 @@ rm -rf spack-*
 
 # Run a spack build of Acts
 spack dev-build --until build ${ACTS_SPACK_SPEC}
-ACTS_BUILD_DIR_NAME=`ls | grep -E "^spack-build[^.]*$"`
+ACTS_BUILD_DIR_NAME=$(ls | grep -E "^spack-build[^.]*$")
 ACTS_SRC_DIR=/mnt/acts
 ACTS_BUILD_DIR=${ACTS_SRC_DIR}/${ACTS_BUILD_DIR_NAME}
 cd ${ACTS_BUILD_DIR}
 
 # Set up the dd4hep environment
-DD4HEP_PREFIX=`spack location --install-dir dd4hep`
+DD4HEP_PREFIX=$(spack location --install-dir dd4hep)
 DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
 set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
 echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
