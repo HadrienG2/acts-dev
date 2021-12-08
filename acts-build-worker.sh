@@ -25,7 +25,7 @@ echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
 
 # Try to keep docker image size down by dropping build stages, downloads, etc
 #
-# Note that you should _not_ run `spack gc` here as that would drop spack
+# Note that you should _not_ run spack gc here as that would drop spack
 # packages which are necessary for Acts to build, but not to run. Which is not
 # what we want, we want a working Acts build environment here !
 #
