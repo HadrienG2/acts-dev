@@ -17,12 +17,6 @@ ACTS_SRC_DIR=/mnt/acts
 ACTS_BUILD_DIR=${ACTS_SRC_DIR}/${ACTS_BUILD_DIR_NAME}
 cd ${ACTS_BUILD_DIR}
 
-# Set up the dd4hep environment
-DD4HEP_PREFIX=$(spack location --install-dir dd4hep)
-DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
-set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
-echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
-
 # Try to keep docker image size down by dropping build stages, downloads, etc
 #
 # Note that you should _not_ run spack gc here as that would drop spack
@@ -30,6 +24,9 @@ echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
 # what we want, we want a working Acts build environment here !
 #
 spack clean -a
+
+# Query the location of the DD4hep installation
+DD4HEP_PREFIX=$(spack location --install-dir dd4hep)
 
 # We're done with Spack ops, so we can perma-source the acts build environment
 # since that's what the user of this Acts development image will always want.
@@ -40,6 +37,11 @@ echo "source ~/acts-build-env.sh" >> ${SETUP_ENV}
 #        badly with the system python installation and prevents using gdb.
 echo "unset PYTHONHOME" >> ${SETUP_ENV}
 echo "unset PYTHONPATH" >> ${SETUP_ENV}
+
+# Set up the dd4hep environment
+DD4HEP_ENV_SCRIPT="${DD4HEP_PREFIX}/bin/thisdd4hep.sh"
+set +u && source ${DD4HEP_ENV_SCRIPT} && set -u
+echo "source ${DD4HEP_ENV_SCRIPT}" >> ${SETUP_ENV}
 
 # Run the unit tests
 ctest -j$(nproc)
