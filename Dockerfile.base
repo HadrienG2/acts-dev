@@ -1,4 +1,4 @@
-FROM hgrasland/root-tests:6.30.02-cxx17
+FROM ghcr.io/hadrieng2/root-tests:6.30.02-cxx17
 
 # Install some useful tools for Acts development
 RUN zypper modifyrepo --enable repo-debug                                      \
@@ -7,18 +7,17 @@ RUN zypper modifyrepo --enable repo-debug                                      \
     && zypper clean -a
 
 # This is the variant of the Acts package that we are going to build
-ENV ACTS_SPACK_SPEC="acts@main build_type=RelWithDebInfo -autodiff +benchmarks \
-                               -cuda +dd4hep +examples +fatras +fatras_geant4  \
-                               +geant4 +hepmc3 +identification                 \
+ENV ACTS_SPACK_SPEC="acts@main build_type=RelWithDebInfo +alignment -autodiff  \
+                               +benchmarks -cuda +dd4hep +examples +fatras     \
+                               +fatras_geant4 +geant4 +hepmc3 +identification  \
                                +integration_tests                              \
                                log_failure_threshold=WARNING +json +legacy     \
-                               +pythia8 +tgeo +unit_tests                      \
+                               -onnx +pythia8 +tgeo +unit_tests                \
                          ^ boost -atomic -chrono cxxstd=17 -date_time          \
-                                 -exception +filesystem -graph -iostreams      \
-                                 -locale -log -math +multithreaded             \
-                                 +program_options -random -regex               \
-                                 -serialization +shared -signals -system +test \
-                                 -thread -timer -wave                          \
+                                 -exception +filesystem -graph +iostreams      \
+                                 -locale -log -math +multithreaded -random     \
+                                 -regex -serialization +shared -signals        \
+                                 -system -thread -timer -wave                  \
                          ^ dd4hep -ddalign -ddcad -ddcond -dddigi -ddeve       \
                            -edm4hep -utilityapps                               \
                          ^ ${ROOT_SPACK_SPEC}"

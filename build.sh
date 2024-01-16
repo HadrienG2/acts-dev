@@ -11,7 +11,13 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Build the base system
-docker build --pull --squash --tag acts-dev-base -f Dockerfile.base .
+buildah build --layers                                                         \
+              --squash                                                         \
+              --format=docker                                                  \
+              --tag acts-dev-base                                              \
+              -f Dockerfile.base .
+buildah rm -a
+buildah rmi -p
 
 # Run the actual Acts build
 #
@@ -19,17 +25,17 @@ docker build --pull --squash --tag acts-dev-base -f Dockerfile.base .
 # bind mount of the Actd development source tree, and the Docker Build
 # Reproducibilty Strike Force won't let us do such an unclean thing.
 #
-docker run -v ~/Bureau/Programmation/acts:/mnt/acts                            \
+podman run -v ~/Bureau/Programmation/acts:/mnt/acts                            \
            --name acts-dev-cont                                                \
            acts-dev-base                                                       \
            bash /root/acts-build-worker.sh
 
 # If the ACTS build succeeded, we can now commit the acts-dev image from the
 # acts-dev-cont container that we just made...
-docker commit --change "CMD bash" acts-dev-cont acts-dev
+podman commit --change "CMD bash" acts-dev-cont acts-dev
 
 # ...and then we don't need that container anymore and can drop it
-docker container rm acts-dev-cont
+podman container rm acts-dev-cont
 
 # Alright, we're done
 echo "*** Acts development container was built successfully ***"

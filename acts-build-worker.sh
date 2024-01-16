@@ -67,9 +67,3 @@ echo "---------------"
 echo "---------------"
 ./ActsBenchmarkSurfaceIntersection
 echo "==============="
-
-# Run the examples
-cd ${ACTS_SRC_DIR}
-rm -f ${ACTS_SRC_DIR}/build
-ln -s ${ACTS_BUILD_DIR} ${ACTS_SRC_DIR}/build
-./CI/run_examples.sh
